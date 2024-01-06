@@ -1,0 +1,116 @@
+/* Start design */
+
+.imageSwitcher {
+  width: 740px;
+}
+
+.swipper-side {
+  height: 770px;
+  display: flex;
+  gap: 20px;
+  flex-direction: row-reverse;
+}
+
+.swipper-side .mySwiper2 {
+  width: 490px;
+}
+
+.mySwiper .swiper-slide {
+  opacity: 0.8;
+}
+.mySwiper .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.swipper-side .mySwiper2 .swiper-wrapper .swiper-slide img {
+  height: 100%;
+  width: 100%;
+}
+
+.swipper-side .mySwiper {
+  width: 230px;
+}
+
+.swipper-side .mySwiper .swiper-wrapper {
+  display: flex;
+  gap: 25px;
+}
+
+.swipper-side .mySwiper .swiper-wrapper .swiper-slide {
+  display: flex;
+}
+
+@media only screen and (max-width: 1286px) {
+  .swipper-side {
+    height: 640px;
+    display: flex;
+    gap: 20px;
+    flex-direction: row-reverse;
+  }
+  .imageSwitcher {
+    width: 600px;
+  }
+  .swipper-side .mySwiper {
+    width: 180px;
+  }
+  .swipper-side .mySwiper2 {
+    width: 380px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .swipper-side {
+    height: 580px;
+    display: flex;
+    gap: 20px;
+    flex-direction: row-reverse;
+  }
+  .imageSwitcher {
+    width: 500px;
+  }
+  .swipper-side .mySwiper {
+    width: 170px;
+  }
+  .swipper-side .mySwiper2 {
+    width: 300px;
+  }
+}
+
+@media only screen and (max-width: 915px) {
+  .swipper-side {
+    height: 420px;
+    display: flex;
+    gap: 20px;
+    flex-direction: row-reverse;
+  }
+  .imageSwitcher {
+    width: 400px;
+  }
+  .swipper-side .mySwiper {
+    width: 140px;
+  }
+  .swipper-side .mySwiper2 {
+    width: 200px;
+  }
+}
+
+@media only screen and (max-width: 815px) {
+  .swipper-side {
+    height: 380px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .swipper-side {
+    height: 380px;
+  }
+  .imageSwitcher {
+    width: 100%;
+  }
+  .swipper-side .mySwiper {
+    width: 100%;
+  }
+  .swipper-side .mySwiper2 {
+    width: auto;
+  }
+}
