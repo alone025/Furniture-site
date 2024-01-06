@@ -6,12 +6,9 @@ import Link from "next/link";
 // Images
 import star from "@/public/star.png";
 import star2 from "@/public/star2.png";
-import softImg from "@/public/Rectangle43.png";
 
 // Fonts
-const ProductSans4 = localFont({
-  src: "../../public/Fonts/Product Sans Regular.ttf",
-});
+
 const ProductSans7 = localFont({
   src: "../../public/Fonts/Product Sans Bold.ttf",
 });

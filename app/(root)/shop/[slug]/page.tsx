@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { usePathname } from "next/navigation";
 import ImageSwitcher from "@/app/components/imageSwitcher";
 import localFont from "next/font/local";
 import Cardshopabout from "@/app/components/cardshopabout";

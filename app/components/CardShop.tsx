@@ -23,7 +23,6 @@ const ProductSans7 = localFont({
 // Images
 import star from "@/public/star.png";
 import star2 from "@/public/star2.png";
-import soft from "@/public/Rectangle27.png";
 
 function CardShop({ name, starts, price, img, id }: Props) {
   const stars: number[] = Array.from(

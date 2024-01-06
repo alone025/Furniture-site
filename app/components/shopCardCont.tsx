@@ -11,12 +11,6 @@ const ProductSans4 = localFont({
   src: "../../public/Fonts/Product Sans Regular.ttf",
 });
 
-// Images
-import soft from "@/public/Rectangle27.png";
-import soft2 from "@/public/Rectangle28.png";
-import soft3 from "@/public/Rectangle26.png";
-import nextI from "@/public/arrow-right2.svg";
-
 type Props = {
   lka: any;
   color: any;
