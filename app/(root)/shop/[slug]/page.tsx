@@ -57,10 +57,11 @@ export default function Page({ params }: { params: { slug: number } }) {
       .request(options)
       .then(function (response: AxiosResponse) {
         console.log(response.data.slice(params.slug - 1, params.slug - 1 + 4));
-        if (params.slug >= 10 || 9) {
+        if (params.slug > 8) {
           setRecCard(response.data.slice(params.slug - 5, params.slug - 1));
         } else {
           setRecCard(response.data.slice(params.slug - 1, params.slug - 1 + 4));
+          console.log(recCard);
         }
       })
       .catch(function (error: any) {
