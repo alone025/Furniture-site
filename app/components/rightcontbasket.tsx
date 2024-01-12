@@ -70,7 +70,7 @@ export const Rightcontbasket = ({ priceData }: Props) => {
           <p
             className={`${ProductSans4.className} text-[12px] md:text-[14px] 2xl:text-[18px] text-[#989898] mb-[5px]`}
           >
-            Total {priceData.length * totalProductLength} items worth
+            Total {totalProductLength} items worth
           </p>
           <div className="oferta-qismi">
             <span
