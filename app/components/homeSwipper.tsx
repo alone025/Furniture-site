@@ -8,10 +8,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/navigation";
-import "swiper/css/pagination";
 
 // Swipper modules
-import { EffectFade, Navigation, Pagination } from "swiper/modules";
+import { EffectFade, Navigation, Autoplay } from "swiper/modules";
 
 // Fonts
 // Fonts
@@ -29,7 +28,7 @@ export default function HomeSwipper({}: Props) {
     {
       nm: "Pablo Picasso",
       wr: "Artist",
-      dc: "Every child is an artist; the problem is staying an artist when you grow up",
+      dc: "Every child is an artist, the problem is staying an artist when you grow up",
     },
     {
       nm: "Billie Eilish",
@@ -49,7 +48,15 @@ export default function HomeSwipper({}: Props) {
         spaceBetween={30}
         effect={"fade"}
         navigation={true}
-        modules={[EffectFade, Navigation]}
+        mousewheel={true}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        keyboard={{
+          enabled: true,
+        }}
+        modules={[EffectFade, Navigation, Autoplay]}
         className="mySwiper"
       >
         {data.map((c, lc) => (
@@ -64,7 +71,7 @@ export default function HomeSwipper({}: Props) {
               “
             </p>
             <p
-              className={`${ProductSans4.className} text-[18px] md:text-[20px] lg:text-[23px] text-[#ABABAB] mb-4 max-w-[430px] w-full text-center`}
+              className={`${ProductSans4.className} text-[15px] md:text-[17px] lg:text-[20px] text-[#ABABAB] mb-4 max-w-[430px] w-full text-center`}
             >
               {c.dc}
             </p>

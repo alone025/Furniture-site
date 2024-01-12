@@ -137,13 +137,15 @@ const Navbar = () => {
             <Image src={search} alt="" />
           )}
         </div>
-        <div className="btn-n2 cursor-pointer">
-          {pathname === "/" ? (
-            <Image src={shop2} alt="" />
-          ) : (
-            <Image src={shop} alt="" />
-          )}
-        </div>
+        <Link href="/korzina">
+          <div className="btn-n2 cursor-pointer">
+            {pathname === "/" ? (
+              <Image src={shop2} alt="" />
+            ) : (
+              <Image src={shop} alt="" />
+            )}
+          </div>
+        </Link>
         <div className="btn-n3 md:hidden" onClick={handleOpen}>
           {(actived && <Image src={close} alt="" />) ||
             (pathname === "/" ? (

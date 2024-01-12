@@ -93,7 +93,15 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
             console.log(e.target.value), setSearch(e.target.value);
           }}
           className={`${ProductSans4.className} text-[18px] text-[#A9A3A3] rounded-none !pt-[20px]`}
-          icon={<Image src={searchIcon} alt="" />}
+          icon={
+            <Image
+              src={searchIcon}
+              alt=""
+              onClick={() => {
+                setOpen(false);
+              }}
+            />
+          }
         />
       </div>
       <div className="section-bar mb-6 md:mb-8 lg:mb-10 flex flex-row lg:flex-col gap-14 lg:gap-10">
@@ -106,6 +114,7 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
             className={`${ProductSans7.className} text-[#2D2D2D] text-[18px] md:text-[21px] lg:text-[23px] cursor-pointer`}
             onClick={() => {
               set("");
+              setOpen(false);
             }}
           >
             Category
@@ -114,6 +123,7 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
             className={`${ProductSans4.className} text-[#7E7E7E] text-[15px] md:text-[17px] lg:text-[19px] cursor-pointer`}
             onClick={() => {
               set("table");
+              setOpen(false);
             }}
           >
             Table (25)
@@ -122,6 +132,7 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
             className={`${ProductSans4.className} text-[#7E7E7E] text-[15px] md:text-[17px] lg:text-[19px] cursor-pointer`}
             onClick={() => {
               set("chair");
+              setOpen(false);
             }}
           >
             Chair (25)
@@ -156,6 +167,7 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
             className={`${ProductSans7.className} text-[#2D2D2D] text-[18px] md:text-[21px] lg:text-[23px] cursor-pointer`}
             onClick={() => {
               setColor("");
+              setOpen(false);
             }}
           >
             Color
@@ -164,6 +176,7 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
             className={`${ProductSans4.className} text-[#7E7E7E] text-[15px] md:text-[17px] lg:text-[19px] cursor-pointer`}
             onClick={() => {
               setColor("grey");
+              setOpen(false);
             }}
           >
             Grey (25)
@@ -172,6 +185,7 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
             className={`${ProductSans4.className} text-[#7E7E7E] text-[15px] md:text-[17px] lg:text-[19px] cursor-pointer`}
             onClick={() => {
               setColor("blue");
+              setOpen(false);
             }}
           >
             Blue (25)
@@ -180,6 +194,7 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
             className={`${ProductSans4.className} text-[#7E7E7E] text-[15px] md:text-[17px] lg:text-[19px] cursor-pointer`}
             onClick={() => {
               setColor("yellow");
+              setOpen(false);
             }}
           >
             Yellow (25)
@@ -191,7 +206,7 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
           open ? "flex" : "hidden"
         } lg:flex flex-col gap-8`}
       >
-        <div className="slider-sec max-w-[320px] w-full">
+        <div className="slider-sec max-w-[420px] w-full">
           <Slider
             placeholder=""
             min={1}
@@ -230,6 +245,7 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
               onClick={() => {
                 console.log(val);
                 setPrice(val);
+                setOpen(false);
               }}
               className={`${ProductSans4.className} text-[17px] md:text-[19px] text-[#F4F4F4] normal-case font-normal rounded-none`}
             >
@@ -244,6 +260,7 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
                 onClick={() => {
                   console.log(0);
                   setPrice(0);
+                  setOpen(false);
                 }}
                 className={`${ProductSans4.className} text-[15px] md:text-[17px] text-[#F4F4F4] normal-case font-normal rounded-none`}
               >

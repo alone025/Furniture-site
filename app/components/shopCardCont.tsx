@@ -1,10 +1,11 @@
 "use client";
-import { Option, Select } from "@material-tailwind/react";
+import { Option, Select, Button } from "@material-tailwind/react";
 import React from "react";
 import localFont from "next/font/local";
 import CardShop from "./CardShop";
 import Pagination from "./pagination";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import Loader from "../(root)/korzina/loader";
 
 // Fonts
 const ProductSans4 = localFont({
@@ -23,9 +24,11 @@ const ShopCardCont = ({ lka, color, filterprice, searchValue }: Props) => {
   const [pgData, setPgData] = React.useState<any>([]);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [sort, setSort] = React.useState("");
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     dataProducts(sort);
+    setLoading(true);
   }, [!data, currentPage, sort, lka, color, filterprice, searchValue]);
 
   const hndvl = (event: any) => {
@@ -36,6 +39,7 @@ const ShopCardCont = ({ lka, color, filterprice, searchValue }: Props) => {
   console.log(color);
 
   const dataProducts = (e: string) => {
+    setLoading(true);
     const options: AxiosRequestConfig = {
       method: "GET",
       url: "https://2c57c2fe491dd2f3.mokky.dev/products",
@@ -76,6 +80,7 @@ const ShopCardCont = ({ lka, color, filterprice, searchValue }: Props) => {
         console.log(response.data);
         setData(response.data.items);
         setPgData(response.data.meta);
+        setLoading(false);
         if (filterprice !== 0) {
           const filteredCards = response.data.items.filter(
             (card: any) => card.price > 0 && card.price < filterprice
@@ -83,35 +88,14 @@ const ShopCardCont = ({ lka, color, filterprice, searchValue }: Props) => {
           console.log(filteredCards);
           setData(filteredCards);
           setPgData(filteredCards);
+          setLoading(false);
         }
       })
       .catch(function (error: any) {
         console.error(error);
+        dataProducts(sort);
       });
   };
-
-  function sortProducts(e: any) {
-    const options: AxiosRequestConfig = {
-      method: "GET",
-      url: `https://2c57c2fe491dd2f3.mokky.dev/products`,
-      params: {
-        _select: "title,price,images,id,rating",
-        sortBy: e,
-        page: currentPage,
-        limit: "8",
-      },
-    };
-    axios
-      .request(options)
-      .then(function (response: AxiosResponse) {
-        console.log(response.data);
-        setData(response.data.items);
-        setPgData(response.data.meta);
-      })
-      .catch(function (error: any) {
-        console.error(error);
-      });
-  }
 
   return (
     <div className="shopCardCont pt-[20px] sm:pt-[40px] lg:pt-[60px] px-3 sm:px-5 md:px-6 2xl:px-14">
@@ -119,42 +103,62 @@ const ShopCardCont = ({ lka, color, filterprice, searchValue }: Props) => {
         <p
           className={`${ProductSans4.className} text-[13px] sm:text-[14px] md:text-[16px] lg:text-[18px] text-[#7E7E7E]`}
         >
-          Showing 1-9 of 57 results
+          Showing {data.length == 0 ? 0 : data.length == 1 ? 0 : 1}-
+          {data.length} of {pgData.total_items || pgData.length} results
         </p>
-        <div className="select-dv  max-w-[200px] lg:max-w-[210px]">
-          <Select
-            placeholder=""
-            variant="standard"
-            color="gray"
-            label="Select Sort"
-            onChange={hndvl}
-            className={`${ProductSans4.className} max-w-[170px] md:max-w-[180px] text-[13px] sm:text-[14px] md:text-[16px] lg:text-[18px] text-[#7E7E7E]`}
-          >
-            <Option value="-rating">Sort by popularity</Option>
-            <Option value="title">Sort by name</Option>
-            <Option value="price">Sort by price</Option>
-          </Select>
-        </div>
-      </div>
-      <div className="content-sec mt-[55px] flex justify-center gap-[23px] md:gap-[33px] lg:gap-[43px] flex-wrap">
-        {data.length == 0 ? (
-          <div className="error-sec">
-            <h3 className={`text-[18px] text-center`}>
-              There are no products for this data
-            </h3>
+        {loading ? (
+          <div className="select-dv max-w-[200px] lg:max-w-[210px] w-full">
+            <Button
+              placeholder=""
+              disabled
+              tabIndex={-1}
+              className="h-11 w-full bg-gray-300 shadow-none hover:shadow-none"
+            >
+              &nbsp;
+            </Button>
           </div>
         ) : (
+          <div className="select-dv max-w-[200px] lg:max-w-[210px]">
+            <Select
+              placeholder=""
+              variant="standard"
+              color="gray"
+              label="Select Sort"
+              onChange={hndvl}
+              className={`${ProductSans4.className} max-w-[170px] md:max-w-[180px] text-[13px] sm:text-[14px] md:text-[16px] lg:text-[18px] text-[#7E7E7E]`}
+            >
+              <Option value="-rating">Sort by popularity</Option>
+              <Option value="title">Sort by name</Option>
+              <Option value="price">Sort by price</Option>
+            </Select>
+          </div>
+        )}
+      </div>
+      <div className="content-sec mt-[55px] flex justify-center gap-[23px] md:gap-[33px] lg:gap-[43px] flex-wrap">
+        {loading ? (
+          <Loader />
+        ) : (
           <>
-            {data.map((g: any, lg: any) => (
-              <CardShop
-                price={g.price}
-                name={g.title}
-                starts={g.rating}
-                img={g.images}
-                key={lg}
-                id={g.id}
-              />
-            ))}
+            {data.length == 0 ? (
+              <div className="error-sec">
+                <h3 className={`text-[18px] text-center`}>
+                  There are no products for this data
+                </h3>
+              </div>
+            ) : (
+              <>
+                {data.map((g: any, lg: any) => (
+                  <CardShop
+                    price={g.price}
+                    name={g.title}
+                    starts={g.rating}
+                    img={g.images}
+                    key={lg}
+                    id={g.id}
+                  />
+                ))}
+              </>
+            )}
           </>
         )}
       </div>
