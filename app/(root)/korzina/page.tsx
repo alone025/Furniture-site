@@ -25,7 +25,9 @@ type Props = {};
 
 const Page = (props: Props) => {
   const [data, setData] = React.useState<ProductType[]>(
-    JSON.parse(localStorage.getItem("carts") as string) || []
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("carts") as string) || []
+      : []
   );
   const [open, setOpen] = React.useState<boolean>(false);
 
