@@ -218,7 +218,7 @@ export default function Cardshopabout({ data, loading }: Props) {
         ) : (
           <div className="input-tab relative flex items-center">
             <input
-              type="number"
+              type="phone"
               value={index}
               onChange={handleInputChange}
               className={`${ProductSans4.className} text-[#8D8D8D] text-[15px] md:text-[17px] lg:text-[19px] text-center py-[10px] min-w-[72px] max-w-[150px] w-full rounded-none border-[1px] border-solid border-[#A3A3A3] outline-none`}

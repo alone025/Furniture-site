@@ -125,7 +125,7 @@ export default function KorzinaCard({
         <div className="price-sec mt-[15px] flex justify-between items-center w-full gap-2 flex-wrap">
           <div className="input-tab relative flex items-center max-w-[80px] md:max-w-[100px] w-full">
             <input
-              type="number"
+              type="phone"
               value={index}
               onChange={handleInputChange}
               className={`${ProductSans4.className} text-[#8D8D8D] text-[14px] text-center py-[5px] min-w-[72px] max-w-[100px] w-full rounded-[4px] border-[1px] border-solid border-[#c4c4c4] outline-black`}
