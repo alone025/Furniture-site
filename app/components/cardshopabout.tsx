@@ -245,7 +245,7 @@ export default function Cardshopabout({ data, loading }: Props) {
               className={`${ProductSans4.className} text-[#8D8D8D] text-[15px] md:text-[17px] lg:text-[19px] text-center py-[10px] min-w-[72px] max-w-[150px] w-full rounded-[10px] border-[1px] border-solid border-[#A3A3A3] outline-none`}
             />
             <span
-              className="absolute w-[19px] left-1"
+              className="absolute w-[19px] left-1 cursor-pointer"
               onClick={() => {
                 index == 1 ? null : setIndex(index - 1);
               }}
@@ -258,7 +258,7 @@ export default function Cardshopabout({ data, loading }: Props) {
               />
             </span>
             <span
-              className="absolute w-[19px] right-1"
+              className="absolute w-[19px] right-1 cursor-pointer"
               onClick={() => {
                 index == 100 ? null : setIndex(index + 1);
               }}

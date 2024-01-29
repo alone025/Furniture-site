@@ -131,7 +131,7 @@ export default function KorzinaCard({
               className={`${ProductSans4.className} text-[#8D8D8D] text-[14px] text-center py-[5px] min-w-[72px] max-w-[100px] w-full rounded-[4px] border-[1px] border-solid border-[#c4c4c4] outline-black`}
             />
             <span
-              className="absolute w-[16px]"
+              className="absolute w-[16px] cursor-pointer"
               onClick={() => {
                 index == 1 ? null : minuse(dataProduct.id);
               }}
@@ -144,7 +144,7 @@ export default function KorzinaCard({
               />
             </span>
             <span
-              className="absolute w-[16px] right-0"
+              className="absolute w-[16px] right-0 cursor-pointer"
               onClick={() => {
                 index == 100 ? null : pluse(dataProduct.id);
               }}
