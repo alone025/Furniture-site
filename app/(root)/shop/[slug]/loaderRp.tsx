@@ -17,7 +17,7 @@ function LoaderRp({}: Props) {
         <Card
           key={lc}
           placeholder=""
-          className="mt-6 w-[250px] md:w-[280px] lg:w-[310px] xl:w-[330px] 2xl:w-auto animate-pulse"
+          className="mt-6 w-[250px] md:w-[280px] lg:w-[310px] xl:w-[330px] 2xl:w-auto 2xl:min-w-[310px] animate-pulse"
         >
           <CardHeader
             placeholder={""}
@@ -40,12 +40,15 @@ function LoaderRp({}: Props) {
               />
             </svg>
           </CardHeader>
-          <CardBody placeholder={""} className="text-center">
+          <CardBody
+            placeholder={""}
+            className="text-center flex justify-center"
+          >
             <Typography
               placeholder={""}
               as="div"
               variant="h1"
-              className="mb-4 h-3 w-[200px] md:w-[230px] lg:w-[250px] xl:w-[280px] 2xl:w-auto rounded-full bg-gray-300"
+              className="mb-1 h-4 w-[180px] md:w-[210px] lg:w-[230px] xl:w-[250px] 2xl:w-auto rounded-full bg-gray-300"
             >
               &nbsp;
             </Typography>
@@ -55,7 +58,7 @@ function LoaderRp({}: Props) {
               placeholder={""}
               disabled
               tabIndex={-1}
-              className="h-8 w-[190px] md:w-[220px] lg:w-[250px] xl:w-[270px] 2xl:w-auto bg-gray-300 shadow-none hover:shadow-none"
+              className="h-5 w-[100px] md:w-[130px] lg:w-[160px] xl:w-[180px] 2xl:w-auto 2xl:min-w-[200px] bg-gray-300 shadow-none hover:shadow-none"
             >
               &nbsp;
             </Button>

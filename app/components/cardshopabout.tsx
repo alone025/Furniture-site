@@ -29,7 +29,12 @@ type Props = {
 export default function Cardshopabout({ data, loading }: Props) {
   const producta = data;
   const [index, setIndex] = React.useState(1);
-  const [liked, setLiked] = React.useState(false);
+  const [liked, setLiked] = React.useState(
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("liked") as string) || []
+      : []
+  );
+
   const [product, setProduct] = React.useState<ProductType>();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,19 +83,35 @@ export default function Cardshopabout({ data, loading }: Props) {
       const data = [...products, { ...product, quanity: e }];
       localStorage.setItem("carts", JSON.stringify(data));
     }
+  };
 
-    // localStorage.setItem("basket", JSON.stringify(data));
-    console.log("ishladi");
+  const addToLiked = (e: any) => {
+    const products: ProductType[] =
+      JSON.parse(localStorage.getItem("liked") as string) || [];
+
+    const isExistProduct = products.find((c) => c.id === e?.id);
+
+    if (isExistProduct) {
+      const updatedData = products.filter(
+        (product: any) => product.id !== e?.id
+      );
+
+      localStorage.setItem("liked", JSON.stringify(updatedData));
+      setLiked(updatedData);
+    } else {
+      const data58 = [...products, { ...e, liked: true }];
+      localStorage.setItem("liked", JSON.stringify(data58));
+
+      setLiked(data58);
+    }
   };
 
   useEffect(() => {
     setProduct(producta);
-    console.log("Bu produkt", product);
-    console.log(producta);
   }, [producta]);
 
   return (
-    <div className="cardshopabout-sec">
+    <div className="cardshopabout-sec md:sticky md:top-[90px] ">
       <div className="top-sec">
         {loading ? (
           <Typography
@@ -221,10 +242,10 @@ export default function Cardshopabout({ data, loading }: Props) {
               type="phone"
               value={index}
               onChange={handleInputChange}
-              className={`${ProductSans4.className} text-[#8D8D8D] text-[15px] md:text-[17px] lg:text-[19px] text-center py-[10px] min-w-[72px] max-w-[150px] w-full rounded-none border-[1px] border-solid border-[#A3A3A3] outline-none`}
+              className={`${ProductSans4.className} text-[#8D8D8D] text-[15px] md:text-[17px] lg:text-[19px] text-center py-[10px] min-w-[72px] max-w-[150px] w-full rounded-[10px] border-[1px] border-solid border-[#A3A3A3] outline-none`}
             />
             <span
-              className="absolute w-[19px]"
+              className="absolute w-[19px] left-1"
               onClick={() => {
                 index == 1 ? null : setIndex(index - 1);
               }}
@@ -237,7 +258,7 @@ export default function Cardshopabout({ data, loading }: Props) {
               />
             </span>
             <span
-              className="absolute w-[19px] right-0"
+              className="absolute w-[19px] right-1"
               onClick={() => {
                 index == 100 ? null : setIndex(index + 1);
               }}
@@ -267,9 +288,8 @@ export default function Cardshopabout({ data, loading }: Props) {
             size="md"
             onClick={() => {
               addToCard(index);
-              console.log(index);
             }}
-            className={`${ProductSans4.className} text-[15px] md:text-[17px] lg:text-[19px] text-[#F4F4F4] normal-case font-normal rounded-none`}
+            className={`${ProductSans4.className} whitespace-nowrap text-[15px] md:text-[17px] lg:text-[19px] text-[#F4F4F4] normal-case font-normal rounded-[13px]`}
           >
             Add to card
           </Button>
@@ -287,12 +307,12 @@ export default function Cardshopabout({ data, loading }: Props) {
           </Typography>
         ) : (
           <>
-            {liked ? (
+            {liked.find((like: any) => like.id === data.id) ? (
               <Image
                 src={heart2}
                 alt=""
                 onClick={() => {
-                  setLiked(!liked);
+                  addToLiked(data);
                 }}
                 className="w-[17px] md:w-[19px] lg:w-[21px] h-[17px] md:h-[19px] lg:h-[21px] cursor-pointer"
               />
@@ -301,7 +321,7 @@ export default function Cardshopabout({ data, loading }: Props) {
                 src={heart}
                 alt=""
                 onClick={() => {
-                  setLiked(!liked);
+                  addToLiked(data);
                 }}
                 className="w-[17px] md:w-[19px] lg:w-[21px] h-[17px] md:h-[19px] lg:h-[21px] cursor-pointer"
               />
@@ -318,14 +338,27 @@ export default function Cardshopabout({ data, loading }: Props) {
             &nbsp;
           </Typography>
         ) : (
-          <p
-            className={`${ProductSans4.className} text-15px md:text-[16px] lg:text-[18px] text-[#9B9B9B] cursor-pointer`}
-            onClick={() => {
-              setLiked(!liked);
-            }}
-          >
-            Add to wishlist
-          </p>
+          <>
+            {liked.find((like: any) => like.id === data.id) ? (
+              <p
+                className={`${ProductSans4.className} text-15px md:text-[16px] lg:text-[18px] text-[#9B9B9B] cursor-pointer`}
+                onClick={() => {
+                  addToLiked(data);
+                }}
+              >
+                Delete from wishlist
+              </p>
+            ) : (
+              <p
+                className={`${ProductSans4.className} text-15px md:text-[16px] lg:text-[18px] text-[#9B9B9B] cursor-pointer`}
+                onClick={() => {
+                  addToLiked(data);
+                }}
+              >
+                Add to wishlist
+              </p>
+            )}
+          </>
         )}
       </div>
       <div className="category-sec mt-5 md:mt-7 lg:mt-10">

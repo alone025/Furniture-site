@@ -38,8 +38,9 @@ const FormControl = ({ setOpen, open }: Props) => {
     formState: { errors },
   } = useForm<FormValues>({});
   const onSubmit = handleSubmit((data) => {
-    console.log(data), sendEmail(data);
+    sendEmail(data);
     setOpen(true);
+    localStorage.removeItem("carts");
   });
 
   return (
@@ -49,69 +50,15 @@ const FormControl = ({ setOpen, open }: Props) => {
           onSubmit={onSubmit}
           className="flex flex-col gap-3 md:gap-5 max-w-[415px] min-w-[200px]"
         >
-          <Input
-            crossOrigin=""
-            {...register("firstName", { required: true })}
-            label="Name"
-            placeholder="Bill"
-            error={errors?.firstName ? true : false}
-          />
-          {errors?.firstName && (
-            <Typography
-              placeholder={""}
-              variant="small"
-              color="red"
-              className="mt-2 flex items-center gap-1 font-normal"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="-mt-px h-4 w-4"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Fill in this field
-            </Typography>
-          )}
-
-          <Input
-            crossOrigin=""
-            {...register("number", {
-              required: true,
-              pattern: /^\+\d{3}-\d{2}-\d{3}-\d{2}-\d{2}$/,
-            })}
-            placeholder="+998-xx-xxx-xx-xx"
-            label="Number"
-            error={errors?.number ? true : false}
-          />
-          {errors?.number?.type === "pattern" ? (
-            <Typography
-              placeholder={""}
-              variant="small"
-              color="red"
-              className="mt-2 flex items-center gap-1 font-normal"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="-mt-px h-4 w-4"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              This field must be a valid phone number
-            </Typography>
-          ) : (
-            errors?.number && (
+          <div className="input-div">
+            <Input
+              crossOrigin=""
+              {...register("firstName", { required: true })}
+              label="Name"
+              placeholder="Bill"
+              error={errors?.firstName ? true : false}
+            />
+            {errors?.firstName && (
               <Typography
                 placeholder={""}
                 variant="small"
@@ -132,42 +79,20 @@ const FormControl = ({ setOpen, open }: Props) => {
                 </svg>
                 Fill in this field
               </Typography>
-            )
-          )}
-
-          <Input
-            crossOrigin=""
-            {...register("email", {
-              required: true,
-              pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            })}
-            placeholder="example@gmail.com"
-            label="Email"
-            error={errors?.email ? true : false}
-          />
-          {errors?.email?.type === "pattern" ? (
-            <Typography
-              placeholder={""}
-              variant="small"
-              color="red"
-              className="mt-2 flex items-center gap-1 font-normal"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="-mt-px h-4 w-4"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              This field must be a valid email address
-            </Typography>
-          ) : (
-            errors?.email && (
+            )}
+          </div>
+          <div className="input-div">
+            <Input
+              crossOrigin=""
+              {...register("number", {
+                required: true,
+                pattern: /^\+\d{3}-\d{2}-\d{3}-\d{2}-\d{2}$/,
+              })}
+              placeholder="+998-xx-xxx-xx-xx"
+              label="Number"
+              error={errors?.number ? true : false}
+            />
+            {errors?.number?.type === "pattern" ? (
               <Typography
                 placeholder={""}
                 variant="small"
@@ -186,10 +111,91 @@ const FormControl = ({ setOpen, open }: Props) => {
                     clipRule="evenodd"
                   />
                 </svg>
-                Fill in this field
+                This field must be a valid phone number
               </Typography>
-            )
-          )}
+            ) : (
+              errors?.number && (
+                <Typography
+                  placeholder={""}
+                  variant="small"
+                  color="red"
+                  className="mt-2 flex items-center gap-1 font-normal"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="-mt-px h-4 w-4"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Fill in this field
+                </Typography>
+              )
+            )}
+          </div>
+
+          <div className="input-div">
+            <Input
+              crossOrigin=""
+              {...register("email", {
+                required: true,
+                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              })}
+              placeholder="example@gmail.com"
+              label="Email"
+              error={errors?.email ? true : false}
+            />
+            {errors?.email?.type === "pattern" ? (
+              <Typography
+                placeholder={""}
+                variant="small"
+                color="red"
+                className="mt-2 flex items-center gap-1 font-normal"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="-mt-px h-4 w-4"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                This field must be a valid email address
+              </Typography>
+            ) : (
+              errors?.email && (
+                <Typography
+                  placeholder={""}
+                  variant="small"
+                  color="red"
+                  className="mt-2 flex items-center gap-1 font-normal"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="-mt-px h-4 w-4"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Fill in this field
+                </Typography>
+              )
+            )}
+          </div>
         </form>
       </div>
       <div className="dostavka mt-[50px] md:mt-[60px]">
@@ -226,35 +232,37 @@ const FormControl = ({ setOpen, open }: Props) => {
             onSubmit={onSubmit}
             className="flex flex-col gap-3 md:gap-5 max-w-[415px] min-w-0 md:min-w-[200px]"
           >
-            <Input
-              crossOrigin=""
-              {...register("manzil", { required: true })}
-              label="Location"
-              placeholder="city, street, house, floor, apartment"
-              error={errors?.manzil ? true : false}
-            />
-            {errors?.manzil && (
-              <Typography
-                placeholder={""}
-                variant="small"
-                color="red"
-                className="mt-2 flex items-center gap-1 font-normal"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="-mt-px h-4 w-4"
+            <div className="input-div">
+              <Input
+                crossOrigin=""
+                {...register("manzil", { required: true })}
+                label="Location"
+                placeholder="city, street, house, floor, apartment"
+                error={errors?.manzil ? true : false}
+              />
+              {errors?.manzil && (
+                <Typography
+                  placeholder={""}
+                  variant="small"
+                  color="red"
+                  className="mt-2 flex items-center gap-1 font-normal"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                Fill in this field
-              </Typography>
-            )}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    className="-mt-px h-4 w-4"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 01.67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 11-.671-1.34l.041-.022zM12 9a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Fill in this field
+                </Typography>
+              )}
+            </div>
           </form>
         </div>
         <div className="recomedation-sec mt-[15px]">
@@ -301,8 +309,6 @@ const FormControl = ({ setOpen, open }: Props) => {
           </p>
         </div>
       </div>
-
-      {/* <input type="submit" /> */}
     </div>
   );
 };

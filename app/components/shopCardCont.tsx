@@ -6,6 +6,7 @@ import CardShop from "./CardShop";
 import Pagination from "./pagination";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import Loader from "../(root)/korzina/loader";
+import { ProductType } from "../interface/interface";
 
 // Fonts
 const ProductSans4 = localFont({
@@ -17,34 +18,38 @@ type Props = {
   color: any;
   filterprice: any;
   searchValue: any;
+  load: any;
+  setload: any;
 };
 
-const ShopCardCont = ({ lka, color, filterprice, searchValue }: Props) => {
+const ShopCardCont = ({
+  lka,
+  color,
+  filterprice,
+  searchValue,
+  load,
+  setload,
+}: Props) => {
   const [data, setData] = React.useState<any>([]);
   const [pgData, setPgData] = React.useState<any>([]);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [sort, setSort] = React.useState("");
-  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     dataProducts(sort);
-    setLoading(true);
+    setload(true);
   }, [!data, currentPage, sort, lka, color, filterprice, searchValue]);
 
   const hndvl = (event: any) => {
-    console.log(event);
     setSort(event);
   };
 
-  console.log(color);
-
   const dataProducts = (e: string) => {
-    setLoading(true);
+    setload(true);
     const options: AxiosRequestConfig = {
       method: "GET",
       url: "https://2c57c2fe491dd2f3.mokky.dev/products",
       params: {
-        _select: "title,price,images,id,rating",
         page: currentPage,
         limit: "8",
       },
@@ -77,22 +82,20 @@ const ShopCardCont = ({ lka, color, filterprice, searchValue }: Props) => {
     axios
       .request(options)
       .then(function (response: AxiosResponse) {
-        console.log(response.data);
         setData(response.data.items);
         setPgData(response.data.meta);
-        setLoading(false);
+        setload(false);
         if (filterprice !== 0) {
           const filteredCards = response.data.items.filter(
             (card: any) => card.price > 0 && card.price < filterprice
           );
-          console.log(filteredCards);
+
           setData(filteredCards);
           setPgData(filteredCards);
-          setLoading(false);
+          setload(false);
         }
       })
       .catch(function (error: any) {
-        console.error(error);
         dataProducts(sort);
       });
   };
@@ -106,7 +109,7 @@ const ShopCardCont = ({ lka, color, filterprice, searchValue }: Props) => {
           Showing {data.length == 0 ? 0 : data.length == 1 ? 0 : 1}-
           {data.length} of {pgData.total_items || pgData.length} results
         </p>
-        {loading ? (
+        {load ? (
           <div className="select-dv max-w-[200px] lg:max-w-[210px] w-full">
             <Button
               placeholder=""
@@ -135,7 +138,7 @@ const ShopCardCont = ({ lka, color, filterprice, searchValue }: Props) => {
         )}
       </div>
       <div className="content-sec mt-[55px] flex justify-center gap-[23px] md:gap-[33px] lg:gap-[43px] flex-wrap">
-        {loading ? (
+        {load ? (
           <Loader />
         ) : (
           <>
@@ -155,6 +158,8 @@ const ShopCardCont = ({ lka, color, filterprice, searchValue }: Props) => {
                     img={g.images}
                     key={lg}
                     id={g.id}
+                    // likd={addToCard}
+                    datas={g}
                   />
                 ))}
               </>

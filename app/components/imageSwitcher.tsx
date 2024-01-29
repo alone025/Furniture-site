@@ -34,8 +34,9 @@ export default function ImageSwitcher({ data, loading }: Props) {
         <Swiper
           cssMode={true}
           spaceBetween={10}
-          thumbs={{ swiper: thumbsSwiper }}
-          className="mySwiper2"
+          thumbs={loading ? {} : { swiper: thumbsSwiper }}
+          modules={[FreeMode, Thumbs]}
+          className="mySwiper2 shadow-lg"
         >
           {loading ? (
             <SwiperSlide>
@@ -63,13 +64,15 @@ export default function ImageSwitcher({ data, loading }: Props) {
             </SwiperSlide>
           ) : (
             <>
-              {data?.map((c: any, lc: any) => {
-                return (
-                  <SwiperSlide key={lc}>
-                    <Image src={c.img} alt="" width={275} height={266} />
-                  </SwiperSlide>
-                );
-              })}
+              {data !== "null"
+                ? data?.map((c: any, lc: any) => {
+                    return (
+                      <SwiperSlide key={lc}>
+                        <Image src={c.img} alt="" width={275} height={266} />
+                      </SwiperSlide>
+                    );
+                  })
+                : null}
             </>
           )}
         </Swiper>
@@ -114,7 +117,7 @@ export default function ImageSwitcher({ data, loading }: Props) {
             <>
               {data?.map((c: any, lc: any) => {
                 return (
-                  <SwiperSlide key={lc}>
+                  <SwiperSlide key={lc} className="shadow-lg">
                     <Image src={c.img} alt="" width={275} height={266} />
                   </SwiperSlide>
                 );

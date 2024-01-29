@@ -10,12 +10,15 @@ import React from "react";
 type Props = {
   open: boolean;
   setOpen: any;
+  clrdc: any;
 };
 
-export default function Dialo({ open, setOpen }: Props) {
+export default function Dialo({ open, setOpen, clrdc }: Props) {
   const [randomnumber, setRandomNumber] = React.useState<number>();
 
-  const handleOpen = () => setOpen(!open);
+  const handleOpen = () => {
+    setOpen(!open), clrdc([]);
+  };
 
   React.useEffect(() => {
     generateRandomNumber();

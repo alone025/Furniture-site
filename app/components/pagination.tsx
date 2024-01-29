@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import localFont from "next/font/local";
+import { IconButton, Typography } from "@material-tailwind/react";
 
 // Fonts
 const ProductSans4 = localFont({
@@ -17,80 +18,62 @@ type Props = {
 };
 
 function Pagination({ data, set }: Props) {
-  const stars: number[] = Array.from(
-    { length: data.total_pages },
-    (_, index) => index + 1
-  );
+  const [active, setActive] = React.useState(1);
+
+  const next = () => {
+    if (active === data.total_pages) return;
+
+    setActive(active + 1);
+    set(data.current_page + 1);
+  };
+
+  const prev = () => {
+    if (active === 1) return;
+
+    setActive(active - 1);
+    set(data.current_page - 1);
+  };
 
   return (
-    <div className="pagination flex justify-center items-center flex-col">
-      <p
-        className={`${ProductSans4} text-[14px] md:text-[16px] lg:text-[18px] text-[#000] flex gap-2 md:gap-4 lg:gap-6`}
-      >
-        <span className="flex items-center">
-          {data.total_pages == null ||
-          data.total_pages == 1 ||
-          data.total_pages == 0 ||
-          data.length ? null : (
-            <>
-              {data.remaining_count == 0 ? (
-                <Image
-                  src={prevI}
-                  alt=""
-                  loading="lazy"
-                  className="w-[18px] md:w-[20px] lg:w-[24px] cursor-pointer"
-                  onClick={() => {
-                    set(data.remaining_count),
-                      console.log(data.remaining_count);
-                  }}
-                />
-              ) : null}
-            </>
-          )}
-        </span>
-        {stars.map((c, lc) => (
-          <span
-            className="cursor-pointer border-solid border-[1px] rounded-[10px] p-2 "
-            key={lc}
-            onClick={() => {
-              set(c);
-            }}
+    <div className="pagination flex justify-center items-center gap-8">
+      {data.total_pages ? (
+        <>
+          <IconButton
+            placeholder={""}
+            size="sm"
+            variant="outlined"
+            onClick={prev}
+            disabled={active === 1}
           >
-            {c}
-          </span>
-        ))}
-        <span className="flex items-center">
-          {data.total_pages == null ||
-          data.total_pages == 1 ||
-          data.total_pages == 0 ||
-          data.length ? null : (
-            <>
-              {data.remaining_count == 0 ? null : (
-                <Image
-                  src={nextI}
-                  alt=""
-                  loading="lazy"
-                  className="w-[18px] md:w-[20px] lg:w-[24px] cursor-pointer"
-                  onClick={() => {
-                    set(data.remaining_count),
-                      console.log(data.remaining_count);
-                  }}
-                />
-              )}
-            </>
-          )}
-        </span>
-      </p>
-      {/* {data.total_pages == null ||
-      data.total_pages == 1 ||
-      data.total_pages == 0 ||
-      data.length ? null : (
-        <p
-          className={`${ProductSans4} text-[15px] md:text-[17px] lg:text-[19px] text-[#6B6B6B] mt-1`}
-        >
-          view all
-        </p>
-      )} */}
+            <Image
+              src={prevI}
+              alt=""
+              loading="lazy"
+              className="w-[18px] md:w-[20px] lg:w-[24px] cursor-pointer"
+            />
+          </IconButton>
+          <Typography placeholder={""} color="gray" className="font-normal">
+            Page <strong className="text-gray-900">{active}</strong> of{" "}
+            <strong className="text-gray-900">{data.total_pages}</strong>
+          </Typography>
+          <IconButton
+            placeholder={""}
+            size="sm"
+            variant="outlined"
+            onClick={next}
+            disabled={active === data.total_pages}
+          >
+            <Image
+              src={nextI}
+              alt=""
+              loading="lazy"
+              className="w-[18px] md:w-[20px] lg:w-[24px] cursor-pointer"
+            />
+          </IconButton>
+        </>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

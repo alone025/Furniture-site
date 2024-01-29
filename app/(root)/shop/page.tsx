@@ -10,6 +10,7 @@ const Shop = (props: Props) => {
   const [color, setColor] = React.useState<string>("");
   const [filterPrice, setFilterPrice] = React.useState<number>(0);
   const [search, setSearch] = React.useState<string>("");
+  const [loading, setLoading] = React.useState(true);
 
   return (
     <div className="shop-main pt-[86px] pb-12 md:pb-24 flex flex-col-reverse lg:flex-row gap-0 lg:gap-[40px] xl:gap-[60px] justify-around">
@@ -19,10 +20,13 @@ const Shop = (props: Props) => {
           color={color}
           filterprice={filterPrice}
           searchValue={search}
+          load={loading}
+          setload={setLoading}
         />
       </div>
       <div className="right-content">
         <FilterShop
+          loading={loading}
           set={setCategory}
           setColor={setColor}
           setPrice={setFilterPrice}

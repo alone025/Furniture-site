@@ -1,8 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import localFont from "next/font/local";
 import { usePathname } from "next/navigation";
+import { Badge, IconButton } from "@material-tailwind/react";
 
 // Images
 import shop from "@/public/korzina2.svg";
@@ -53,7 +54,7 @@ const Navbar = () => {
         <div className="nav-sec">
           <ul
             className={`flex md:flex-row md:justify-between xl:gap-[45px] lg:gap-[35px] md:gap-[20px] md:h-auto md:pt-0 md:relative md:top-0 md:left-0  ${
-              (actived && "top-[76px]") || "top-[-1000px]"
+              (actived && "top-[76px]") || "top-[-3000px]"
             } ${
               (actived && pathname === "/" && "bg-[#303030]") ||
               (actived && "bg-[#fff]") ||
@@ -110,7 +111,7 @@ const Navbar = () => {
                 About us
               </li>
             </Link>
-            {/* <Link href="/blog">
+            <Link href="/blog">
               <li
                 onClick={handleClose}
                 className={`text-xl relative transition duration-700 ease-in-out ${
@@ -125,18 +126,36 @@ const Navbar = () => {
               >
                 Blog
               </li>
-            </Link> */}
+            </Link>
           </ul>
         </div>
       </div>
       <div className="right-tab flex flex-row xl:gap-[40px] lg:gap-[30px] md:gap-[20px] gap-[15px]">
-        <div className="btn-n1 cursor-pointer">
+        {/* <div className="btn-n1 cursor-pointer">
           {pathname === "/" ? (
             <Image src={search2} alt="" />
           ) : (
             <Image src={search} alt="" />
           )}
-        </div>
+        </div> */}
+        <Link href="/liked">
+          <IconButton
+            placeholder={""}
+            size="sm"
+            color={pathname === "/" ? "white" : "black"}
+            variant="text"
+            className="rounded-full"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="h-7 w-7"
+            >
+              <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+            </svg>
+          </IconButton>
+        </Link>
         <Link href="/korzina">
           <div className="btn-n2 cursor-pointer">
             {pathname === "/" ? (
@@ -154,13 +173,6 @@ const Navbar = () => {
               <Image src={menuBtn} alt="" />
             ))}
         </div>
-        {/* <div className="btn-n3 hidden md:block cursor-pointer">
-          {pathname === "/" ? (
-            <Image src={menuBtn2} alt="" />
-          ) : (
-            <Image src={menuBtn} alt="" />
-          )}
-        </div> */}
       </div>
     </div>
   );

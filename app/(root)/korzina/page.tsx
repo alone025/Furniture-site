@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@material-tailwind/react";
+import { Breadcrumbs, Button } from "@material-tailwind/react";
 import localFont from "next/font/local";
 import Image from "next/image";
 import Link from "next/link";
@@ -94,14 +94,24 @@ const Page = (props: Props) => {
   return (
     <div className="korzina-page pt-[86px] pb-[65px] px-6 2xl:px-14">
       <div className="route-tab pt-[10px] md:pt-3 lg:pt-5">
-        <p
-          className={`${ProductSans4.className} text-[16px] md:text-[18px] text-[#7E7E7E]`}
-        >
-          <Link href="/shop" className="cursor-pointer">
-            shop
-          </Link>{" "}
-          / Basket
-        </p>
+        <Breadcrumbs placeholder={""}>
+          <Link href="/" className="opacity-60">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+            </svg>
+          </Link>
+          <Link href="/shop" className="cursor-pointer opacity-60">
+            <span className={`${ProductSans4.className}`}>shop</span>
+          </Link>
+          <Link href="#">
+            <span>Basket</span>
+          </Link>
+        </Breadcrumbs>
       </div>
       <div className="content-tab mt-[10px] ">
         {data.length === 0 ? (
@@ -119,7 +129,7 @@ const Page = (props: Props) => {
             <Link href="/shop" className="mt-[18px] md:mt-[25px] lg:mt-[30px]">
               <Button
                 placeholder={""}
-                className={`${ProductSans7.className} py-2 md:py-3 px-3 md:px-6 bg-[#404040] rounded-[4px] normal-case font-bold tracking-wider  max-w-[150px] md:max-w-[180px] lg:max-w-[220px] w-full`}
+                className={`${ProductSans7.className} py-2 md:py-3 px-3 md:px-6 bg-[#404040] rounded-[4px] normal-case font-bold tracking-wider max-w-[150px] md:max-w-[180px] lg:max-w-[220px] w-full`}
               >
                 Go to shopping
               </Button>
@@ -166,7 +176,7 @@ const Page = (props: Props) => {
           </div>
         )}
       </div>
-      <Dialo open={open} setOpen={setOpen} />
+      <Dialo open={open} setOpen={setOpen} clrdc={setData} />
     </div>
   );
 };

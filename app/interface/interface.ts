@@ -8,6 +8,7 @@ export interface ProductType {
   price: number;
   quanity: number;
   rating: number;
+  liked: boolean;
   tags: string;
   title: string;
 }

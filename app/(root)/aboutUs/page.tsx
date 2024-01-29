@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import localFont from "next/font/local";
 
@@ -15,6 +16,9 @@ import backVideo from "@/public/videoBack.svg";
 import bgVideo from "@/public/Rectangle48.png";
 import right from "@/public/arr-right.svg";
 import left from "@/public/arrow-left.svg";
+import VideoDialog from "@/app/components/videoDialog";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import SkeletonBlog from "./skeleton";
 
 // Fonts
 const ProductSans7 = localFont({
@@ -27,6 +31,33 @@ const ProductSans4 = localFont({
 type Props = {};
 
 const AboutUs = (props: Props) => {
+  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
+  const [blogCardData, setBlogCardData] = React.useState([]);
+
+  React.useEffect(() => {
+    datablogAbout();
+  }, [!blogCardData]);
+
+  function datablogAbout() {
+    setLoading(true);
+    const options: AxiosRequestConfig = {
+      method: "GET",
+      url: `https://2c57c2fe491dd2f3.mokky.dev/blogs`,
+    };
+
+    axios
+      .request(options)
+      .then(function (response: AxiosResponse) {
+        setBlogCardData(response.data.slice(0, 3));
+        setLoading(false);
+      })
+      .catch(function (error: any) {
+        datablogAbout();
+        setLoading(true);
+      });
+  }
+
   const secData = [
     {
       img: clock,
@@ -126,8 +157,11 @@ const AboutUs = (props: Props) => {
       </div>
       <div className="video-cover-sec h-[440px] md:h-[468px] px-6 2xl:px-14">
         <div
-          className="video-back h-full flex justify-center items-center bg-cover bg-center"
+          className="video-back h-full flex justify-center items-center bg-cover bg-center cursor-pointer"
           style={{ backgroundImage: `url('${bgVideo.src}')` }}
+          onClick={() => {
+            setOpen(true);
+          }}
         >
           <div className="video-start-icon">
             <div className="back-video relative flex justify-center items-center">
@@ -180,7 +214,7 @@ const AboutUs = (props: Props) => {
               <div className="statis relative mt-[15px] md:mt-[20px] lg:mt-[25px] xl:mt-[30px]">
                 <div className="line-1 h-[5px] bg-[#C2C2C2]"></div>
                 <div
-                  className={`line-2 h-[5px] absolute w-full max-w-[${c.qr}] bg-[#1F1F1F] top-0`}
+                  className={`line-2 h-[5px] absolute w-full max-w-[242px] sm:max-w-[342px] md:max-w-[432px] bg-[#1F1F1F] top-0`}
                 ></div>
               </div>
             </div>
@@ -202,11 +236,22 @@ const AboutUs = (props: Props) => {
           </div> */}
         </div>
         <div className="btm-sec-tab pt-[40px] md:pt-[60px] lg:pt-[80px] flex gap-10 flex-wrap justify-center">
-          {blogdata.map((c, lg) => (
-            <CardBlog key={lg} data={c.data} name={c.nm} />
-          ))}
+          {loading ? (
+            <>
+              {[1, 2, 3].map((c, lg) => (
+                <SkeletonBlog key={lg} />
+              ))}
+            </>
+          ) : (
+            <>
+              {blogCardData.map((c, lg) => (
+                <CardBlog key={lg} data={c} />
+              ))}
+            </>
+          )}
         </div>
       </div>
+      <VideoDialog open={open} handleOpen={setOpen} />
     </div>
   );
 };

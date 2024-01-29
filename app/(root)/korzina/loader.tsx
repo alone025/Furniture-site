@@ -12,12 +12,12 @@ type Props = {};
 
 function Loader({}: Props) {
   return (
-    <div className="loading-sec flex flex-wrap gap-[23px] md:gap-[33px] lg:gap-[43px] justify-center">
+    <div className="loading-sec flex flex-wrap gap-[23px] md:gap-[33px] lg:gap-[43px] justify-center w-full">
       {[1, 2, 3, 4, 5, 6].map((c, lc) => (
         <Card
           key={lc}
           placeholder=""
-          className="mt-6 w-[190px] sm:w-[200px] md:w-[245px] lg:w-auto animate-pulse"
+          className="mt-6 w-[190px] sm:w-[200px] md:w-[245px] lg:w-full lg:max-w-[300px] animate-pulse"
         >
           <CardHeader
             placeholder={""}
@@ -45,7 +45,7 @@ function Loader({}: Props) {
               placeholder={""}
               as="div"
               variant="h1"
-              className="mb-4 h-3 w-56 rounded-full bg-gray-300"
+              className="mb-4 h-3 w-[50%] rounded-full bg-gray-300"
             >
               &nbsp;
             </Typography>

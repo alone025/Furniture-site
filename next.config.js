@@ -5,6 +5,14 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "i.ibb.co",
+        // hostname: "loremflickr.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        // hostname: "i.ibb.co",
+        hostname: "loremflickr.com",
         port: "",
         pathname: "/**",
       },

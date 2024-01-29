@@ -7,7 +7,7 @@ import Cardshopabout from "@/app/components/cardshopabout";
 import Rpcard from "@/app/components/rpcard";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import Link from "next/link";
-import { Typography } from "@material-tailwind/react";
+import { Breadcrumbs, Typography } from "@material-tailwind/react";
 import LoaderRp from "./loaderRp";
 
 // Fonts
@@ -42,13 +42,11 @@ export default function Page({ params }: { params: { slug: number } }) {
     axios
       .request(options)
       .then(function (response: AxiosResponse) {
-        setLoading(false);
-        console.log(response.data);
         setCardData(response.data);
-        setImages(response.data.images);
+        setImages(response?.data.images);
+        setLoading(false);
       })
       .catch(function (error: any) {
-        console.error(error);
         dataProducts();
         setLoading(true);
       });
@@ -67,21 +65,17 @@ export default function Page({ params }: { params: { slug: number } }) {
     axios
       .request(options)
       .then(function (response: AxiosResponse) {
-        console.log(
-          response.data.slice(params.slug - 1 + 2, params.slug - 1 + 6)
-        );
-        setLoading2(false);
         if (params.slug > 8) {
           setRecCard(response.data.slice(params.slug - 5, params.slug - 1));
+          setLoading2(false);
         } else {
           setRecCard(
             response.data.slice(params.slug - 1 + 2, params.slug - 1 + 6)
           );
-          console.log(recCard);
+          setLoading2(false);
         }
       })
       .catch(function (error: any) {
-        console.error(error);
         recProducts();
         setLoading2(true);
       });
@@ -95,19 +89,29 @@ export default function Page({ params }: { params: { slug: number } }) {
             placeholder={""}
             as="div"
             variant="h1"
-            className="mb-4 h-3 max-w-20 rounded-full bg-gray-300"
+            className="mb-4 h-4 max-w-40 rounded-full bg-gray-300"
           >
             &nbsp;
           </Typography>
         ) : (
-          <p
-            className={`${ProductSans4.className} text-[16px] md:text-[18px] text-[#7E7E7E]`}
-          >
-            <Link href="/shop" className="cursor-pointer">
-              shop
-            </Link>{" "}
-            / {cardData.title}
-          </p>
+          <Breadcrumbs placeholder={""}>
+            <Link href="/" className="opacity-60">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+              </svg>
+            </Link>
+            <Link href="/shop" className="cursor-pointer opacity-60">
+              <span className={`${ProductSans4.className}`}>shop</span>
+            </Link>
+            <Link href="#">
+              <span>{cardData.title}</span>
+            </Link>
+          </Breadcrumbs>
         )}
       </div>
       <div className="content-shopcard pt-[30px] md:pt-[45px] lg:pt-[56px] pb-[70px] flex flex-col md:flex-row gap-[20px] lg:gap-[50px]">
@@ -126,14 +130,14 @@ export default function Page({ params }: { params: { slug: number } }) {
             Related products
           </h4>
         </div>
-        <div className="content-sec flex flex-wrap justify-center gap-5 xl:gap-3 2xl:gap-6">
-          {loading ? (
+        <div className="content-sec flex overflow-x-auto scroll-auto gap-2 md:gap-5 xl:gap-3 2xl:gap-6 2xl:justify-center">
+          {loading2 ? (
             <div className="loading-page">
               <LoaderRp />
             </div>
           ) : (
             <>
-              {recCard.map((ee: any) => (
+              {recCard?.map((ee: any) => (
                 <Rpcard
                   key={ee.id}
                   name={ee.title}

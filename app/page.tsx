@@ -1,7 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useEffect } from "react";
 import localFont from "next/font/local";
-import { usePathname } from "next/navigation";
 import Butto from "./components/button";
 import Image from "next/image";
 
@@ -91,6 +90,27 @@ export default function Home() {
       dec: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat dolor odio odio",
     },
   ];
+
+  useEffect(() => {
+    function makeid(length: number): string {
+      let result = "";
+      const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      const charactersLength = characters.length;
+      let counter = 0;
+      while (counter < length) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+        counter += 1;
+      }
+      return result;
+    }
+
+    if (localStorage.getItem("token") === null) {
+      localStorage.setItem("token", makeid(5));
+    }
+  }, []);
 
   return (
     <div

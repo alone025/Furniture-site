@@ -22,9 +22,17 @@ type Props = {
   setPrice: any;
   flt: any;
   setSearch: any;
+  loading: any;
 };
 
-const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
+const FilterShop = ({
+  set,
+  setColor,
+  setPrice,
+  flt,
+  setSearch,
+  loading,
+}: Props) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [val, setVal] = React.useState(50);
 
@@ -48,6 +56,7 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
 
   return (
     <div
+      style={loading ? { opacity: 0.5 } : { opacity: 1 }}
       className={`shopFilter pt-[30px] sm:pt-[50px] lg:pt-[60px] px-3 sm:px-5 md:px-6  2xl:px-14 ${
         open ? "absolute bg-[#fff]" : "relative bg-transparent"
       } lg:relative left-0 w-full lg:w-auto h-full lg:h-auto flex flex-col items-center lg:items-start`}
@@ -89,9 +98,6 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
           label="Search . . ."
           size="lg"
           color="blue-gray"
-          onChange={(e) => {
-            console.log(e.target.value), setSearch(e.target.value);
-          }}
           className={`${ProductSans4.className} text-[18px] text-[#A9A3A3] rounded-none !pt-[20px]`}
           icon={
             <Image
@@ -243,7 +249,6 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
               placeholder=""
               size="md"
               onClick={() => {
-                console.log(val);
                 setPrice(val);
                 setOpen(false);
               }}
@@ -258,7 +263,6 @@ const FilterShop = ({ set, setColor, setPrice, flt, setSearch }: Props) => {
                 placeholder=""
                 size="md"
                 onClick={() => {
-                  console.log(0);
                   setPrice(0);
                   setOpen(false);
                 }}

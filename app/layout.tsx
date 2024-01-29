@@ -4,8 +4,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
-import { Suspense } from "react";
-import Loader from "./loader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,9 +36,9 @@ export default function RootLayout({
         <div className="relative flex flex-col">
           <Navbar />
           {/* pt-[86px] */}
-          <Suspense fallback={<Loader />}>
-            <main className="w-full mx-auto flex-grow">{children}</main>
-          </Suspense>
+
+          <main className="w-full mx-auto flex-grow">{children}</main>
+
           <Footer />
         </div>
       </body>

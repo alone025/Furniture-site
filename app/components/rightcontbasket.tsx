@@ -36,10 +36,6 @@ export const Rightcontbasket = ({ priceData }: Props) => {
   const [lasttotalprices, setLastTotalPrice] = React.useState<number>(0);
   const [totalProductLength, setTotalProductLength] = React.useState<number>(0);
 
-  // const array = [1, 1, 1, 1];
-  // const testnomer1 = array.reduce((a, b) => a + b);
-  // console.log(testnomer1);
-
   React.useEffect(() => {
     const totalPrice = getTotalPrice(priceData);
     const lasttotalprices = getLastTotalPrice(priceData);
