@@ -18,7 +18,7 @@ export default function Blog({}: Props) {
   const [loading, setLoading] = React.useState(true);
   const [blogdata, setBlogdata] = React.useState<any>([]);
   // const token = localStorage.getItem("token");
-  const [token, setToken] = React.useState("");
+  const [token, setToken] = React.useState<string | null>("");
 
   React.useEffect(() => {
     setLoading(true);
