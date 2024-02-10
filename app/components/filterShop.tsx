@@ -35,6 +35,7 @@ const FilterShop = ({
 }: Props) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [val, setVal] = React.useState(50);
+  const [vlSer, setValSer] = React.useState("");
 
   const setTrue = () => {
     setOpen((open) => !open);
@@ -52,6 +53,24 @@ const FilterShop = ({
         setVal(value);
       }
     }
+  };
+
+  const SearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setValSer(value);
+    if (value == "") {
+      setSearch(value);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      setSearch(vlSer);
+    }
+  };
+
+  const handleSearchClick = () => {
+    setSearch(vlSer);
   };
 
   return (
@@ -97,7 +116,11 @@ const FilterShop = ({
           crossOrigin=""
           label="Search . . ."
           size="lg"
+          onKeyDown={handleKeyDown}
           color="blue-gray"
+          onChange={(e) => {
+            SearchChange(e);
+          }}
           className={`${ProductSans4.className} text-[18px] text-[#A9A3A3] rounded-none !pt-[20px]`}
           icon={
             <Image
@@ -105,6 +128,7 @@ const FilterShop = ({
               alt=""
               onClick={() => {
                 setOpen(false);
+                handleSearchClick();
               }}
             />
           }
@@ -132,7 +156,7 @@ const FilterShop = ({
               setOpen(false);
             }}
           >
-            Table (25)
+            Table
           </p>
           <p
             className={`${ProductSans4.className} text-[#7E7E7E] text-[15px] md:text-[17px] lg:text-[19px] cursor-pointer`}
@@ -141,9 +165,9 @@ const FilterShop = ({
               setOpen(false);
             }}
           >
-            Chair (25)
+            Chair
           </p>
-          <p
+          {/* <p
             className={`${ProductSans4.className} text-[#7E7E7E] text-[15px] md:text-[17px] lg:text-[19px] cursor-pointer`}
           >
             Led (25)
@@ -162,7 +186,7 @@ const FilterShop = ({
             className={`${ProductSans4.className} text-[#7E7E7E] text-[15px] md:text-[17px] lg:text-[19px] cursor-pointer`}
           >
             Wood (25)
-          </p>
+          </p> */}
         </div>
         <div
           className={`color-bar  ${

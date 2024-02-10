@@ -17,6 +17,7 @@ type Props = {};
 export default function Blog({}: Props) {
   const [loading, setLoading] = React.useState(true);
   const [blogdata, setBlogdata] = React.useState<any>([]);
+  const token = localStorage.getItem("token");
 
   React.useEffect(() => {
     setLoading(true);
@@ -24,29 +25,28 @@ export default function Blog({}: Props) {
   }, [!blogdata]);
 
   const handleLike = (blogId: number) => {
-    // const updatedBlogs = cardData.map((blog: any) => {
     const updatedBlogs = blogdata.map((blog: any) => {
       if (blog.id === blogId) {
-        const likedByUser = blog.liked.find((like: any) => like.id === "aASas");
+        const likedByUser = blog.liked.find((like: any) => like.id === token);
 
         if (likedByUser) {
           if (likedByUser.liked) {
             return {
               ...blog,
-              liked: blog.liked.filter((id: any) => id.id !== "aASas"),
+              liked: blog.liked.filter((id: any) => id.id !== token),
             };
           } else {
             return {
               ...blog,
               liked: blog.liked.map((like: any) =>
-                like.id === "aASas" ? { ...like, liked: true } : like
+                like.id === token ? { ...like, liked: true } : like
               ),
             };
           }
         } else {
           return {
             ...blog,
-            liked: [...blog.liked, { id: "aASas", liked: true }],
+            liked: [...blog.liked, { id: token, liked: true }],
           };
         }
       }

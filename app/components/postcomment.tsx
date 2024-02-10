@@ -27,16 +27,23 @@ type Props = {
 
 function Postcomment({ cardData, setData }: Props) {
   const [loading, setLoading] = React.useState(false);
+  const token = localStorage.getItem("token");
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({});
   const onSubmit = handleSubmit((data) => {
     const updatecomment = cardData;
     const updatedcomment = [
       ...updatecomment.comment,
-      { name: data.name, description: data.description, email: data.email },
+      {
+        name: data.name,
+        description: data.description,
+        email: data.email,
+        token: token,
+      },
     ];
 
     dataCommentSend(updatedcomment);
@@ -57,6 +64,7 @@ function Postcomment({ cardData, setData }: Props) {
       .then(function (response: AxiosResponse) {
         setLoading(false);
         setData(response.data);
+        reset();
       })
       .catch(function (error: any) {
         setLoading(true);

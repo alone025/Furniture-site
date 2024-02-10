@@ -88,7 +88,7 @@ export default function Page({ params }: { params: { slug: any } }) {
 
   return (
     <div className="blog-slug-page pt-[86px] pb-[80px] md:pb-[100px] px-6 2xl:px-14">
-      <div className="route-tab-blog pt-[10px] md:pt-3 lg:pt-5">
+      <div className="route-tab-blog pt-[10px] md:pt-3 lg:pt-5 line-clamp-1 w-full">
         {loading ? (
           <Typography
             placeholder={""}
@@ -114,7 +114,9 @@ export default function Page({ params }: { params: { slug: any } }) {
               <span className={`${ProductSans4.className}`}>blog</span>
             </Link>
             <Link href="#">
-              <span>{cardData.title}</span>
+              <span className="line-clamp-1 max-w-[100px] w-full sm:max-w-[300px]">
+                {cardData.title}
+              </span>
             </Link>
           </Breadcrumbs>
         )}
@@ -156,15 +158,12 @@ export default function Page({ params }: { params: { slug: any } }) {
               className={` ${ProductSans4.className} text-[11px] md:text-[13px] lg:text-[15px] text-[#898989] grid grid-cols-3 gap-y-2 md:gap-0 md:flex`}
             >
               <span className="pr-[10px] md:pr-[14px] border-r border-r-[#A4A4A4]">
-                {/* Sep 26, 2022 */}
                 {cardData.data}
               </span>
               <span className="pr-[10px] md:pr-[14px] pl-[10px] md:pl-[14px] border-r line-clamp-1 border-r-[#A4A4A4]">
-                {/* Newest, sofa and chair , wooden */}
                 {cardData.type}
               </span>
               <span className="pr-[10px] md:pr-[14px] pl-[10px] md:pl-[14px] border-r line-clamp-1 border-r-[#A4A4A4]">
-                {/* By soroush norozy */}
                 {cardData.owner}
               </span>
               <Tooltip content={`${cardData?.liked?.length} people liked it`}>
@@ -218,7 +217,6 @@ export default function Page({ params }: { params: { slug: any } }) {
             <h2
               className={`${ProductSans7.className} text-[20px] md:text-[25px] lg:text-[30px] text-[#2D2D2D]`}
             >
-              {/* New modern sofa is here */}
               {cardData.title}
             </h2>
           )}
@@ -250,9 +248,17 @@ export default function Page({ params }: { params: { slug: any } }) {
           <div className="loading-content mb-20"></div>
         ) : (
           <>
-            <div className="comments- flex overflow-x-auto w-full flex-row gap-10">
+            <div
+              id="scrollbar"
+              className="comments- flex overflow-x-auto w-full flex-row gap-10"
+            >
               {cardData?.comment?.map((c: any, lc: any) => (
-                <Comment key={lc} data={c} />
+                <Comment
+                  key={lc}
+                  data={c}
+                  cdata={cardData}
+                  setAllData={setCardData}
+                />
               ))}
             </div>
             <div className="post-comment mt-[100px]">

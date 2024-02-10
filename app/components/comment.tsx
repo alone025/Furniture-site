@@ -1,12 +1,21 @@
 import React from "react";
 import {
   Avatar,
+  Button,
   Card,
   CardBody,
   CardHeader,
+  Menu,
+  MenuHandler,
+  MenuItem,
+  MenuList,
   Typography,
 } from "@material-tailwind/react";
 import localFont from "next/font/local";
+import moreOptionImage from "@/public/more.png";
+import Image from "next/image";
+import DialogBlog from "./DialogBlog";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 // Fonts
 const ProductSans4 = localFont({
@@ -18,9 +27,58 @@ const ProductSans7 = localFont({
 
 type Props = {
   data: any;
+  cdata: any;
+  setAllData: any;
 };
 
-const Comment = ({ data }: Props) => {
+const Comment = ({ data, cdata, setAllData }: Props) => {
+  const token = localStorage.getItem("token");
+  const [open, handleOpen] = React.useState(false);
+  const [ed, setEd] = React.useState(false);
+
+  const handleDelete = () => {
+    const updatedComment = cdata?.comment.filter(
+      (tok: any) => tok.description !== data.description
+    );
+    dataCommentSend(updatedComment);
+  };
+
+  const handleEdit = (e: any) => {
+    const updatedComment = cdata.comment.map((c: any) => {
+      if (c?.token == token && c?.description == data.description) {
+        return {
+          ...c,
+          name: e.name,
+          description: e.description,
+          email: e.email,
+        };
+      }
+
+      return c;
+    });
+
+    dataCommentSend(updatedComment);
+  };
+
+  function dataCommentSend(e: any) {
+    const options: AxiosRequestConfig = {
+      method: "PATCH",
+      url: `https://2c57c2fe491dd2f3.mokky.dev/blogs/${cdata.id}`,
+      data: {
+        comment: e,
+      },
+    };
+
+    axios
+      .request(options)
+      .then(function (response: AxiosResponse) {
+        setAllData(response.data);
+      })
+      .catch(function (error: any) {
+        alert("Error updating server , please try again : (");
+      });
+  }
+
   return (
     <Card
       placeholder={""}
@@ -63,15 +121,60 @@ const Comment = ({ data }: Props) => {
             {data.email}
           </Typography>
         </div>
+        <div className="menu-button">
+          <Menu>
+            <MenuHandler>
+              <Image
+                src={moreOptionImage}
+                alt=""
+                width={32}
+                className="w-8 h-[20px] cursor-pointer"
+              />
+            </MenuHandler>
+
+            {data.token == token ? (
+              <MenuList placeholder={""}>
+                <MenuItem
+                  placeholder={""}
+                  onClick={() => {
+                    setEd(true), handleOpen(true);
+                  }}
+                >
+                  Edit
+                </MenuItem>
+                <MenuItem
+                  placeholder={""}
+                  onClick={() => {
+                    setEd(false), handleOpen(true);
+                  }}
+                >
+                  Delete
+                </MenuItem>
+              </MenuList>
+            ) : (
+              <MenuList placeholder={""}>
+                <MenuItem placeholder={""}>Spam</MenuItem>
+              </MenuList>
+            )}
+          </Menu>
+        </div>
       </CardHeader>
       <CardBody placeholder={""} className="mb-6 p-0">
         <Typography
           placeholder={""}
-          className={`${ProductSans4.className} text-[14px] md:text-[15px] lg:text-base`}
+          className={`${ProductSans4.className} text-[14px] md:text-[15px] lg:text-base overflow-hidden`}
         >
           {data.description}
         </Typography>
       </CardBody>
+      <DialogBlog
+        open={open}
+        handleOpen={handleOpen}
+        ed={ed}
+        dt={data}
+        handleDelete={handleDelete}
+        handleEdit={handleEdit}
+      />
     </Card>
   );
 };

@@ -14,6 +14,7 @@
     "axios": "^1.6.4",
     "next": "14.0.4",
     "nodemailer": "^6.9.8",
+    "perfect-scrollbar": "^1.5.5",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.49.2",

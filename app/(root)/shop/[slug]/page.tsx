@@ -130,7 +130,10 @@ export default function Page({ params }: { params: { slug: number } }) {
             Related products
           </h4>
         </div>
-        <div className="content-sec flex overflow-x-auto scroll-auto gap-2 md:gap-5 xl:gap-3 2xl:gap-6 2xl:justify-center">
+        <div
+          id="scrollbar"
+          className="content-sec pb-3 flex overflow-x-auto scroll-auto gap-2 md:gap-5 xl:gap-3 2xl:gap-6 2xl:justify-center"
+        >
           {loading2 ? (
             <div className="loading-page">
               <LoaderRp />

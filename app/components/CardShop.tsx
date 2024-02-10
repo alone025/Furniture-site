@@ -71,7 +71,7 @@ function CardShop({ name, starts, price, img, id, datas }: Props) {
     <Card
       // gap-[9px] sm:gap-[12px] md:gap-[15px]
       placeholder={""}
-      className="card-content shadow-lg flex flex-col items-center  w-[200px] sm:w-[200px] md:w-[245px] lg:w-auto"
+      className="card-content shadow-lg flex flex-col items-center  w-[200px] sm:w-[200px] md:w-[245px] lg:min-w-[330px] lg:w-auto"
     >
       <CardHeader placeholder={""} floated={false} color="blue-gray">
         <Link href={{ pathname: `/shop/${id}` }}>
