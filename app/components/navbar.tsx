@@ -165,7 +165,7 @@ const Navbar = () => {
             )}
           </div>
         </Link>
-        <div className="btn-n3 md:hidden" onClick={handleOpen}>
+        <div className="btn-n3 md:hidden cursor-pointer" onClick={handleOpen}>
           {(actived && <Image src={close} alt="" />) ||
             (pathname === "/" ? (
               <Image src={menuBtn2} alt="" />
