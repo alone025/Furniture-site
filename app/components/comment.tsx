@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Avatar,
-  Button,
   Card,
   CardBody,
   CardHeader,
@@ -16,6 +15,10 @@ import moreOptionImage from "@/public/more.png";
 import Image from "next/image";
 import DialogBlog from "./DialogBlog";
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import SpamDialog from "./spamDialog";
+import Alerts from "./alert";
+import nodemailer from "nodemailer";
+import emailjs from "emailjs-com";
 
 // Fonts
 const ProductSans4 = localFont({
@@ -35,6 +38,9 @@ const Comment = ({ data, cdata, setAllData }: Props) => {
   const token = localStorage.getItem("token");
   const [open, handleOpen] = React.useState(false);
   const [ed, setEd] = React.useState(false);
+  const [sp, setSpm] = React.useState(false);
+  const [dt, setDt] = React.useState<any>();
+  const [alertOpen, setAlertOpen] = React.useState(false);
 
   const handleDelete = () => {
     const updatedComment = cdata?.comment.filter(
@@ -79,6 +85,50 @@ const Comment = ({ data, cdata, setAllData }: Props) => {
       });
   }
 
+  const sendReport = async (e: any) => {
+    console.log(e);
+
+    emailjs
+      .send(
+        "service_93hzeyc",
+        "template_vsjg2uf",
+        {
+          from_email: e.email,
+          to_name: "Admin",
+          from_name: e.name,
+          message: e.description,
+          commentId: data.token || "default comment",
+          commentDes: data.description,
+        },
+        "a0yQC4dHLA7YZEzES"
+      )
+      .then((response) => {
+        console.log("Email sent successfully!", response.status, response.text);
+      })
+      .catch((error) => {
+        console.error("Error sending email:", error);
+      });
+    // const templateParams = {
+    //   from_email: "example@gmail.com",
+    //   to_email: "forestest26@gmail.com",
+    //   message: "Hello bro its again test but its so big test for you bro : ) ",
+    // };
+
+    // emailjs
+    //   .send(
+    //     "service_93hzeyc",
+    //     "template_1si0azf",
+    //     templateParams,
+    //     "a0yQC4dHLA7YZEzES"
+    //   )
+    //   .then((response) => {
+    //     console.log("Email sent successfully!", response.status, response.text);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error sending email:", error);
+    //   });
+  };
+
   return (
     <Card
       placeholder={""}
@@ -116,7 +166,7 @@ const Comment = ({ data, cdata, setAllData }: Props) => {
           <Typography
             placeholder={""}
             color="blue-gray"
-            className={`${ProductSans4.className} text-[14px] md:text-[15px] lg:text-base `}
+            className={`${ProductSans4.className} max-w-[175px] md:max-w-[210px] line-clamp-1 text-[14px] md:text-[15px] lg:text-base `}
           >
             {data.email}
           </Typography>
@@ -153,7 +203,14 @@ const Comment = ({ data, cdata, setAllData }: Props) => {
               </MenuList>
             ) : (
               <MenuList placeholder={""}>
-                <MenuItem placeholder={""}>Spam</MenuItem>
+                <MenuItem
+                  placeholder={""}
+                  onClick={() => {
+                    setSpm(true);
+                  }}
+                >
+                  Spam
+                </MenuItem>
               </MenuList>
             )}
           </Menu>
@@ -174,6 +231,14 @@ const Comment = ({ data, cdata, setAllData }: Props) => {
         dt={data}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
+      />
+      <Alerts open={alertOpen} setOpen={setAlertOpen} />
+      <SpamDialog
+        handleOpen={setSpm}
+        open={sp}
+        handleSend={setDt}
+        send={sendReport}
+        alrt={setAlertOpen}
       />
     </Card>
   );
