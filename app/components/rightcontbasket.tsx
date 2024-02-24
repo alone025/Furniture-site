@@ -12,6 +12,8 @@ const ProductSans7 = localFont({
 
 type Props = {
   priceData: ProductType[];
+  tprice: any;
+  setTprice: any;
 };
 
 const getTotalPrice = (products: ProductType[]) => {
@@ -31,8 +33,8 @@ const getTotalLengthProducts = (products: ProductType[]) => {
   return products.reduce((total, product) => total + product.quanity, 0);
 };
 
-export const Rightcontbasket = ({ priceData }: Props) => {
-  const [totalPrice, setTotalPrice] = React.useState<number>(0);
+export const Rightcontbasket = ({ priceData, tprice, setTprice }: Props) => {
+  // const [totalPrice, setTotalPrice] = React.useState<number>(0);
   const [lasttotalprices, setLastTotalPrice] = React.useState<number>(0);
   const [totalProductLength, setTotalProductLength] = React.useState<number>(0);
 
@@ -41,7 +43,7 @@ export const Rightcontbasket = ({ priceData }: Props) => {
     const lasttotalprices = getLastTotalPrice(priceData);
     const totalProductsLength = getTotalLengthProducts(priceData);
     setLastTotalPrice(lasttotalprices);
-    setTotalPrice(totalPrice);
+    setTprice(totalPrice);
     setTotalProductLength(totalProductsLength);
   }, [priceData]);
 
@@ -57,7 +59,7 @@ export const Rightcontbasket = ({ priceData }: Props) => {
               <span
                 className={`${ProductSans4.className} font-medium text-[14px] md:text-[16px] 2xl:text-[20px] ml-[8px] md:ml-[10px]`}
               >
-                {lasttotalprices - totalPrice}.00 USD
+                {lasttotalprices - tprice}.00 USD
               </span>{" "}
             </p>
           </div>
@@ -72,7 +74,7 @@ export const Rightcontbasket = ({ priceData }: Props) => {
             <span
               className={`new-sprice ${ProductSans4.className} font-medium text-[20px] sm:text-[22px] md:text-[25px] 2xl:text-[30px]`}
             >
-              {totalPrice}.00 USD
+              {tprice}.00 USD
             </span>
             <span
               className={`lastsprice ${ProductSans4.className} text-[15px] sm:text-[17px] md:text-[18px] 2xl:text-[22px] line-through  text-[#989898] ml-[15px]`}

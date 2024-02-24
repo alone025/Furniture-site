@@ -11,10 +11,12 @@ type Props = {
   open: boolean;
   setOpen: any;
   clrdc: any;
+  st: any;
+  rn: any;
 };
 
-export default function Dialo({ open, setOpen, clrdc }: Props) {
-  const [randomnumber, setRandomNumber] = React.useState<number>();
+export default function Dialo({ open, setOpen, clrdc, st, rn }: Props) {
+  // const [randomnumber, setRandomNumber] = React.useState<number>();
 
   const handleOpen = () => {
     setOpen(!open), clrdc([]);
@@ -22,11 +24,11 @@ export default function Dialo({ open, setOpen, clrdc }: Props) {
 
   React.useEffect(() => {
     generateRandomNumber();
-  }, [!randomnumber]);
+  }, [!rn]);
 
   const generateRandomNumber = () => {
     const newRandomNumber = Math.floor(Math.random() * 1000);
-    setRandomNumber(newRandomNumber);
+    st(newRandomNumber);
   };
 
   return (
@@ -40,8 +42,8 @@ export default function Dialo({ open, setOpen, clrdc }: Props) {
       >
         <DialogHeader placeholder={""}>This is success, friend!</DialogHeader>
         <DialogBody placeholder={""}>
-          Order No. {randomnumber} has been successfully completed. We will send
-          you message to agree on the details.
+          Order No. {rn} has been successfully completed. We will send you
+          message to agree on the details.
         </DialogBody>
         <DialogFooter placeholder={""}>
           <Button

@@ -86,8 +86,6 @@ const Comment = ({ data, cdata, setAllData }: Props) => {
   }
 
   const sendReport = async (e: any) => {
-    console.log(e);
-
     emailjs
       .send(
         "service_93hzeyc",
@@ -97,6 +95,7 @@ const Comment = ({ data, cdata, setAllData }: Props) => {
           to_name: "Admin",
           from_name: e.name,
           message: e.description,
+          blog_id: cdata?.id,
           commentId: data.token || "default comment",
           commentDes: data.description,
         },
@@ -108,25 +107,6 @@ const Comment = ({ data, cdata, setAllData }: Props) => {
       .catch((error) => {
         console.error("Error sending email:", error);
       });
-    // const templateParams = {
-    //   from_email: "example@gmail.com",
-    //   to_email: "forestest26@gmail.com",
-    //   message: "Hello bro its again test but its so big test for you bro : ) ",
-    // };
-
-    // emailjs
-    //   .send(
-    //     "service_93hzeyc",
-    //     "template_1si0azf",
-    //     templateParams,
-    //     "a0yQC4dHLA7YZEzES"
-    //   )
-    //   .then((response) => {
-    //     console.log("Email sent successfully!", response.status, response.text);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error sending email:", error);
-    //   });
   };
 
   return (

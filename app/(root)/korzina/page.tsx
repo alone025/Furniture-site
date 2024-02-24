@@ -30,6 +30,8 @@ const Page = (props: Props) => {
       : []
   );
   const [open, setOpen] = React.useState<boolean>(false);
+  const [randomnumber, setRandomNumber] = React.useState<number>();
+  const [totalPrice, setTotalPrice] = React.useState<number>(0);
 
   const removeProduct = (id: number) => {
     const updatedCart = data.filter((product: any) => product.id !== id);
@@ -167,16 +169,32 @@ const Page = (props: Props) => {
                 >
                   Fill in your&nbsp;information
                 </h2>
-                <FormControl setOpen={setOpen} open={open} />
+                <FormControl
+                  setOpen={setOpen}
+                  open={open}
+                  dts={data}
+                  rnumber={randomnumber}
+                  totprice={totalPrice}
+                />
               </div>
             </div>
             <div className="right-content max-w-full lg:max-w-[450px] w-full">
-              <Rightcontbasket priceData={data} />
+              <Rightcontbasket
+                priceData={data}
+                tprice={totalPrice}
+                setTprice={setTotalPrice}
+              />
             </div>
           </div>
         )}
       </div>
-      <Dialo open={open} setOpen={setOpen} clrdc={setData} />
+      <Dialo
+        open={open}
+        setOpen={setOpen}
+        clrdc={setData}
+        st={setRandomNumber}
+        rn={randomnumber}
+      />
     </div>
   );
 };

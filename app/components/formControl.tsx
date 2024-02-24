@@ -4,6 +4,7 @@ import React from "react";
 import { useForm, Resolver } from "react-hook-form";
 import localFont from "next/font/local";
 import { sendEmail } from "../utils/email-send";
+import emailjs from "emailjs-com";
 
 // Use Form content
 
@@ -29,9 +30,12 @@ const ProductSans7 = localFont({
 type Props = {
   setOpen: any;
   open: boolean;
+  dts: any;
+  rnumber: any;
+  totprice: any;
 };
 
-const FormControl = ({ setOpen, open }: Props) => {
+const FormControl = ({ setOpen, open, dts, rnumber, totprice }: Props) => {
   const {
     register,
     handleSubmit,
@@ -40,8 +44,65 @@ const FormControl = ({ setOpen, open }: Props) => {
   const onSubmit = handleSubmit((data) => {
     sendEmail(data);
     setOpen(true);
+    sendTo_Admin_Gmail(data);
     localStorage.removeItem("carts");
   });
+
+  const sendTo_Admin_Gmail = (e: any) => {
+    const templateParams = {
+      from_email: e.email,
+      to_email: "foresterdev258@gmail.com",
+      message: e.description,
+      to_name: "Admin",
+      product_length: dts.length,
+      order_number: rnumber,
+      total_price: totprice,
+      data: dts,
+      user_number: e.number,
+      user_address: e.manzil,
+    };
+
+    emailjs
+      .send(
+        "service_93hzeyc",
+        "template_1si0azf",
+        templateParams,
+        "a0yQC4dHLA7YZEzES"
+      )
+      .then((response) => {
+        console.log("Email sent successfully!", response.status, response.text);
+      })
+      .catch((error) => {
+        console.error("Error sending email:", error);
+      });
+    sendTo_User_Gmail(e);
+  };
+
+  const sendTo_User_Gmail = (e: any) => {
+    const templateParams = {
+      from_email: "foresterdev258@gmail.com",
+      to_email: e.email,
+      message: e.description,
+      to_name: e.firstName,
+      product_length: dts.length,
+      order_number: rnumber,
+      total_price: totprice,
+    };
+
+    emailjs
+      .send(
+        "service_93hzeyc",
+        "template_1si0azf",
+        templateParams,
+        "a0yQC4dHLA7YZEzES"
+      )
+      .then((response) => {
+        console.log("Email sent successfully!", response.status, response.text);
+      })
+      .catch((error) => {
+        console.error("Error sending email:", error);
+      });
+  };
 
   return (
     <div className="form-control mt-8 md:mt-10">
